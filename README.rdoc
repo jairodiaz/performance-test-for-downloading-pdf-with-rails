@@ -1,0 +1,31 @@
+== Basic Rails Server
+
+This server is used to test performance issues when downloading concurrently many large pdf files.
+
+Hitting the url 'localhost:3000' downloads a large pdf file from the file system.
+
+Nginx (http://nginx.com/) is used as a reverse proxy to multiplex a single worker among several clients.
+
+== Example Nginx configuration file
+
+    #user  nobody;
+    worker_processes  1;
+
+    #error_log  logs/error.log;
+    #error_log  logs/error.log  notice;
+    #error_log  logs/error.log  info;
+
+    #pid        logs/nginx.pid;
+
+
+    events {
+        worker_connections  1024; #4 connections are required per pdf download!
+     }
+
+== Results
+
+On our test machine, a web client uses approximately four worker_connections when downloading a pdf.
+
+This results can be verified using siege (http://www.joedog.org/siege-home/) as performance tool.
+
+The number of worker_connections should be configured properly to limit the maximum number of pdfs that can be downloaded concurrently from the server. For example 400 worker_connections supports the concurrent download of 100 pdfs. Without a limit the server could be overloaded. For this test, the configuration of the nginx cache has not been considered.
