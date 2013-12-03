@@ -29,3 +29,27 @@ On our test machine, a web client uses approximately four worker_connections whe
 This results can be verified using siege (http://www.joedog.org/siege-home/) as performance tool.
 
 The number of worker_connections should be configured properly to limit the maximum number of pdfs that can be downloaded concurrently from the server. For example 400 worker_connections supports the concurrent download of 100 pdfs. Without a limit the server could be overloaded. For this test, the configuration of the nginx cache has not been considered.
+
+== Installation on Mac OS X
+
+    brew install nginx
+    brew install siege
+    cd /tmp
+    wget http://prawn.majesticseacreature.com/manual.pdf
+
+Configure nginx at /usr/local/etc/nginx/nginx.conf to point to the rails server in this repo.
+
+   location / {
+        proxy_pass   http://127.0.0.1:3000;
+    }
+
+Run the applications
+
+    nginx
+    cd rails-server
+    rails s
+
+Run the test
+
+   siege -b -c10 -t10000s http://localhost:8080
+
