@@ -40,3 +40,5 @@ gem 'jquery-rails'
 gem 'dotenv-rails'
 
 gem 'newrelic_rpm'
+
+gem 'therubyracer'
