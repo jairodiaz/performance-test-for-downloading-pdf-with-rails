@@ -38,3 +38,5 @@ gem 'jquery-rails'
 # gem 'debugger'
 
 gem 'dotenv-rails'
+
+gem 'newrelic_rpm'
