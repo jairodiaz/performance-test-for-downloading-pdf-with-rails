@@ -1,0 +1,9 @@
+Setting a constant variable:
+
+source: http://tsung.erlang-projects.org/user_manual/conf-advanced-features.html?highlight=encoding
+
+<setdynvars sourcetype="value" value="foobar">
+  <var name="constant" />
+</setdynvars>
+
+
