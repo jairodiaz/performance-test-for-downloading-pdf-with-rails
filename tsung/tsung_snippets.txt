@@ -6,4 +6,23 @@ source: http://tsung.erlang-projects.org/user_manual/conf-advanced-features.html
   <var name="constant" />
 </setdynvars>
 
+Receiving a rails token and sending it back to the server:
+
+<request>
+  <dyn_variable name="authenticity_token" xpath="//input[@name='authenticity_token']/@value" />
+  <http url='/applicants/new' version='1.1' method='GET'></http>
+</request>
+
+<setdynvars sourcetype="eval"
+    code="fun({Pid,DynVars})->
+                  {ok,Val}=ts_dynvars:lookup(authenticity_token,DynVars),
+                  http_uri:encode(Val)
+          end.">
+    <var name="encoded_authenticity_token" />
+</setdynvars>
+
+<request subst="true">
+
+  <http url='/applicants' version='1.1'  contents='utf8=%E2%9C%93&amp;authenticity_token=%%_encoded_authenticity_token%%&amp;applicant%5Btitle%5D=&amp;applicant%5Bfirst_name%5D=Testt&amp;applicant%5Bmiddle_names%5D=&amp;applicant%5Blast_name%5D=Last&amp;commit=Save+and+continue' content_type='application/x-www-form-urlencoded' method='POST'></http>
+</request>
 
