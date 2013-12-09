@@ -26,3 +26,11 @@ Receiving a rails token and sending it back to the server:
   <http url='/applicants' version='1.1'  contents='utf8=%E2%9C%93&amp;authenticity_token=%%_encoded_authenticity_token%%&amp;applicant%5Btitle%5D=&amp;applicant%5Bfirst_name%5D=Testt&amp;applicant%5Bmiddle_names%5D=&amp;applicant%5Blast_name%5D=Last&amp;commit=Save+and+continue' content_type='application/x-www-form-urlencoded' method='POST'></http>
 </request>
 
+Extracting and object ID from a redirect:
+
+<request subst="true">
+  <dyn_variable name="id" re="Location: .*lpas/(.*)/build\r"></dyn_variable>
+  <http url='/lpas' version='1.1' contents='utf8=%E2%9C%93&amp;authenticity_token=%%_encoded_authenticity_token%%&amp;commit=Create+a+new+LPA' content_type='application/x-www-form-urlencoded' method='POST'></http>
+</request>
+
+<request subst="true"><http url='/lpas/%%_id%%/build' version='1.1' method='GET'></http></request>
