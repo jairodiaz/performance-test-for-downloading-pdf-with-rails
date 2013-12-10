@@ -21,6 +21,12 @@ Receiving a rails token and sending it back to the server:
     <var name="encoded_authenticity_token" />
 </setdynvars>
 
+
+Note on URI encoding: Use Erlang function 'http_uri:encode' instead of 'edoc_lib:escape_uri'
+that breaks on execution and has some different encoding rules.
+
+Another way to avoid using this function would be to use contet_type='text/xml; charset=utf-8'.
+
 <request subst="true">
 
   <http url='/applicants' version='1.1'  contents='utf8=%E2%9C%93&amp;authenticity_token=%%_encoded_authenticity_token%%&amp;applicant%5Btitle%5D=&amp;applicant%5Bfirst_name%5D=Testt&amp;applicant%5Bmiddle_names%5D=&amp;applicant%5Blast_name%5D=Last&amp;commit=Save+and+continue' content_type='application/x-www-form-urlencoded' method='POST'></http>
