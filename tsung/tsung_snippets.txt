@@ -42,3 +42,16 @@ Extracting and object ID from a redirect:
 <request subst="true"><http url='/lpas/%%_id%%/build' version='1.1' method='GET'></http></request>
 
 Note: A good number of samples is found at the file http_setdynvars.xml on the tsung directory: tsung/1.5.0/share/doc/tsung/examples
+
+Polling for a resource in javascript until is ready.
+
+<repeat name="retrieve_pdf" max_repeat="20">
+  <request subst="true">
+    <dyn_variable name="pdf_ready" re='"pdfURL":(.*)}'/>
+    <http url='/lpas/%%_lpa_id%%/get_pdf?lpa_id=%%_lpa_id%%&amp;pdf_ready=%%_pdf_ready%%' version='1.1' method='GET'>
+      <http_header name="X-Requested-With" value="XMLHttpRequest"/>
+      <http_header name="X-CSRF-Token" value="fL0G8ZevQhhVUdVNZ/HWnhw6QHa3U68ozUQZAsn8at4="/>
+    </http>
+  </request>
+  <while var="pdf_ready" eq="false"/>
+</repeat>
